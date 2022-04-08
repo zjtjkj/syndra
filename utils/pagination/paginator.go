@@ -1,7 +1,10 @@
 package pagination
 
 func Page[T any](tar []*T, index uint, size uint) ([]*T, uint) {
-	l := uint(len(tar))
+	var l uint
+	if l = uint(len(tar)); tar == nil || l == 0 {
+		return []*T{}, 0
+	}
 	ps := l / size
 	if l%size > 0 {
 		ps += 1

@@ -41,6 +41,26 @@ func TestPage(t *testing.T) {
 			want:  []*T{{str: "5"}},
 			want1: 3,
 		},
+		{
+			name: "zero test",
+			args: args{
+				tar:   []*T{},
+				index: 1,
+				size:  25,
+			},
+			want:  []*T{},
+			want1: 0,
+		},
+		{
+			name: "nil array",
+			args: args{
+				tar:   nil,
+				index: 1,
+				size:  25,
+			},
+			want:  []*T{},
+			want1: 0,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
