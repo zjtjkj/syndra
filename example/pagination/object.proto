@@ -1,0 +1,24 @@
+syntax = "proto3";
+package object;
+option go_package = "./example/pagination/object;object";
+
+message Object {
+    string name = 1;
+}
+
+message ListRequest {
+    uint32 index = 1;
+    uint32 size = 2;
+}
+
+message ListRepsonse {
+    repeated Object objects = 1;
+    uint32 index = 2;
+    uint32 size = 3;
+    uint32 pages = 4;
+    uint32 total = 5;
+}
+
+service ObjectService {
+    rpc ListObject(ListRequest) returns (ListRepsonse);
+}

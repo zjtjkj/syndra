@@ -11,15 +11,15 @@ func TestPage(t *testing.T) {
 	}
 	type args struct {
 		tar   []*T
-		index uint
-		size  uint
+		index uint32
+		size  uint32
 	}
 	data := []*T{{str: "1"}, {str: "2"}, {str: "3"}, {str: "4"}, {str: "5"}}
 	tests := []struct {
 		name  string
 		args  args
 		want  []*T
-		want1 uint
+		want1 uint32
 	}{
 		{
 			name: "normal page test",
