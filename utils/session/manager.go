@@ -1,11 +1,9 @@
-package pkg
+package session
 
 import (
 	"crypto/rand"
 	"encoding/base64"
 	"fmt"
-	"github.com/zjtjkj/syndra/utils/session/custom"
-	"github.com/zjtjkj/syndra/utils/session/internal/provider"
 	"io"
 	"sync"
 	"time"
@@ -13,12 +11,12 @@ import (
 
 type Manager struct {
 	lock        sync.Mutex
-	provider    provider.Provider
+	provider    Provider
 	maxLifeTime int64
 }
 
-func NewManager(provideType custom.Type, maxLifeTime int64) (*Manager, error) {
-	provide, ok := provider.GetProvider(provideType)
+func NewManager(provideType Type, maxLifeTime int64) (*Manager, error) {
+	provide, ok := GetProvider(provideType)
 	if !ok {
 		return nil, fmt.Errorf("session: unknown provider %q (forgotten import?)", provideType)
 	}

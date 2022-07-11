@@ -4,12 +4,10 @@
 	该provider由一个map和一个双向单链表构成，map用于快速访问，双向单链表用于快速gc(越接近超时的session排在链尾，创建、更新和使用某一session
 	时，将其放置到链首，每次gc时，判断链尾元素是否过期)。
 */
-package provider
+package session
 
 import (
 	"container/list"
-	"github.com/zjtjkj/syndra/utils/session/custom"
-	"github.com/zjtjkj/syndra/utils/session/pkg"
 	"sync"
 	"time"
 )
@@ -18,7 +16,7 @@ var pder = &memProvider{list: list.New()}
 
 func init() {
 	pder.sessions = make(map[string]*list.Element, 0)
-	Register(custom.Memory, pder)
+	Register(Memory, pder)
 }
 
 // memSession 内存session
@@ -59,7 +57,7 @@ type memProvider struct {
 }
 
 // SessionInit 初始化session, 将新的session放置在双向链表的头部
-func (p *memProvider) SessionInit(sid string) (pkg.Session, error) {
+func (p *memProvider) SessionInit(sid string) (Session, error) {
 	p.lock.Lock()
 	defer p.lock.Unlock()
 	v := make(map[interface{}]interface{}, 0)
@@ -74,7 +72,7 @@ func (p *memProvider) SessionInit(sid string) (pkg.Session, error) {
 }
 
 // SessionRead 获取session
-func (p *memProvider) SessionRead(sid string) (pkg.Session, error) {
+func (p *memProvider) SessionRead(sid string) (Session, error) {
 	if element, ok := p.sessions[sid]; ok {
 		return element.Value.(*memSession), nil
 	} else {
