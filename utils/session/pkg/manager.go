@@ -4,9 +4,9 @@ import (
 	"crypto/rand"
 	"encoding/base64"
 	"fmt"
+	"github.com/zjtjkj/syndra/utils/session/custom"
+	"github.com/zjtjkj/syndra/utils/session/internal/provider"
 	"io"
-	"session/custom"
-	"session/internal/provider"
 	"sync"
 	"time"
 )

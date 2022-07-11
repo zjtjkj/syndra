@@ -1,6 +1,6 @@
 package provider
 
-import "session/pkg"
+import "github.com/zjtjkj/syndra/utils/session/pkg"
 
 var provides = make(map[string]Provider)
 

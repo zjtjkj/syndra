@@ -8,8 +8,8 @@ package provider
 
 import (
 	"container/list"
-	"session/custom"
-	"session/pkg"
+	"github.com/zjtjkj/syndra/utils/session/custom"
+	"github.com/zjtjkj/syndra/utils/session/pkg"
 	"sync"
 	"time"
 )
