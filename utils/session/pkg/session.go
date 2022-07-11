@@ -1,4 +1,4 @@
-package internal
+package pkg
 
 type Session interface {
 	Set(key, value interface{}) error // 设置session value

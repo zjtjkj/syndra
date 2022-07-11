@@ -5,7 +5,7 @@ import (
 	"encoding/base64"
 	"fmt"
 	"io"
-	"session/internal"
+	"session/custom"
 	"session/internal/provider"
 	"sync"
 	"time"
@@ -17,7 +17,7 @@ type Manager struct {
 	maxLifeTime int64
 }
 
-func NewManager(provideType provider.Type, maxLifeTime int64) (*Manager, error) {
+func NewManager(provideType custom.Type, maxLifeTime int64) (*Manager, error) {
 	provide, ok := provider.GetProvider(provideType)
 	if !ok {
 		return nil, fmt.Errorf("session: unknown provider %q (forgotten import?)", provideType)
@@ -35,7 +35,7 @@ func (m *Manager) sessionId() string {
 }
 
 // SessionStart 如果 sid 为""，则创建新 session；如果 session 不为""，则获取该 session
-func (m *Manager) SessionStart(sid string) (s internal.Session, err error) {
+func (m *Manager) SessionStart(sid string) (s Session, err error) {
 	m.lock.Lock()
 	defer m.lock.Unlock()
 	if sid == "" {

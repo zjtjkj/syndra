@@ -8,7 +8,8 @@ package provider
 
 import (
 	"container/list"
-	"session/internal"
+	"session/custom"
+	"session/pkg"
 	"sync"
 	"time"
 )
@@ -17,7 +18,7 @@ var pder = &memProvider{list: list.New()}
 
 func init() {
 	pder.sessions = make(map[string]*list.Element, 0)
-	Register(Memory, pder)
+	Register(custom.Memory, pder)
 }
 
 // memSession 内存session
@@ -58,7 +59,7 @@ type memProvider struct {
 }
 
 // SessionInit 初始化session, 将新的session放置在双向链表的头部
-func (p *memProvider) SessionInit(sid string) (internal.Session, error) {
+func (p *memProvider) SessionInit(sid string) (pkg.Session, error) {
 	p.lock.Lock()
 	defer p.lock.Unlock()
 	v := make(map[interface{}]interface{}, 0)
@@ -73,7 +74,7 @@ func (p *memProvider) SessionInit(sid string) (internal.Session, error) {
 }
 
 // SessionRead 获取session
-func (p *memProvider) SessionRead(sid string) (internal.Session, error) {
+func (p *memProvider) SessionRead(sid string) (pkg.Session, error) {
 	if element, ok := p.sessions[sid]; ok {
 		return element.Value.(*memSession), nil
 	} else {
