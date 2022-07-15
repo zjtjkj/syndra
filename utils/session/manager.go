@@ -33,16 +33,19 @@ func (m *Manager) sessionId() string {
 }
 
 // SessionStart 如果 sid 为""，则创建新 session；如果 session 不为""，则获取该 session
-func (m *Manager) SessionStart(sid string) (s Session, err error) {
+func (m *Manager) SessionStart() (s Session, err error) {
 	m.lock.Lock()
 	defer m.lock.Unlock()
-	if sid == "" {
-		sid = m.sessionId()
-		s, err = m.provider.SessionInit(sid)
-	} else {
-		s, err = m.provider.SessionRead(sid)
-	}
+	sid := m.sessionId()
+	s, err = m.provider.SessionInit(sid)
 	return
+}
+
+func (m *Manager) SessionGet(sid string) (s Session, err error) {
+	m.lock.Lock()
+	defer m.lock.Unlock()
+	s, err = m.provider.SessionRead(sid)
+	return s, err
 }
 
 // SessionDestroy 销毁 session，主动注销

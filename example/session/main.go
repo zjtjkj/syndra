@@ -12,7 +12,7 @@ func main() {
 		panic(err)
 	}
 	// create new session
-	sess1, err := manager.SessionStart("")
+	sess1, err := manager.SessionStart()
 	if err != nil {
 		panic(err)
 	}
@@ -20,7 +20,7 @@ func main() {
 	_ = sess1.Set("name", "Tom")
 	_ = sess1.Set("age", 18)
 	// get session
-	sess2, err := manager.SessionStart(sess1.SessionID())
+	sess2, err := manager.SessionGet(sess1.SessionID())
 	if err != nil {
 		panic(err)
 	}
@@ -31,7 +31,7 @@ func main() {
 		panic(err)
 	}
 	// get session again
-	sess3, err := manager.SessionStart(sess2.SessionID())
+	sess3, err := manager.SessionGet(sess2.SessionID())
 	if err != nil {
 		panic(err)
 	}
