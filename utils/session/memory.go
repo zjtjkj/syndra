@@ -76,8 +76,7 @@ func (p *memProvider) SessionRead(sid string) (Session, error) {
 	if element, ok := p.sessions[sid]; ok {
 		return element.Value.(*memSession), nil
 	} else {
-		sess, err := p.SessionInit(sid)
-		return sess, err
+		return nil, nil
 	}
 }
 
