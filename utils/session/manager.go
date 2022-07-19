@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"io"
 	"sync"
-	"time"
 )
 
 type Manager struct {
@@ -65,5 +64,4 @@ func (m *Manager) GC() {
 	m.lock.Lock()
 	defer m.lock.Lock()
 	m.provider.SessionGC(m.maxLifeTime)
-	time.AfterFunc(time.Duration(m.maxLifeTime), func() { m.GC() })
 }
