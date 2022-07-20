@@ -51,7 +51,7 @@ func (s *memSession) SessionID() string {
 
 // memProvider 内存存储session
 type memProvider struct {
-	lock     sync.Mutex               // lock
+	lock     sync.RWMutex             // lock
 	sessions map[string]*list.Element // session 存储
 	list     *list.List               // gc
 }
@@ -73,6 +73,8 @@ func (p *memProvider) SessionInit(sid string) (Session, error) {
 
 // SessionRead 获取session
 func (p *memProvider) SessionRead(sid string) (Session, error) {
+	p.lock.RLock()
+	defer p.lock.RUnlock()
 	if element, ok := p.sessions[sid]; ok {
 		return element.Value.(*memSession), nil
 	} else {
@@ -82,6 +84,8 @@ func (p *memProvider) SessionRead(sid string) (Session, error) {
 
 // SessionDestroy 注销session
 func (p *memProvider) SessionDestroy(sid string) error {
+	p.lock.Lock()
+	defer p.lock.Unlock()
 	if element, ok := p.sessions[sid]; ok {
 		delete(p.sessions, sid)
 		p.list.Remove(element)
